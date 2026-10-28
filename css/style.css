@@ -1,0 +1,449 @@
+/* Fonts (SIL Open Font License): Teko for headlines, Michroma for the wordmark. */
+@font-face { font-family: "Teko"; font-weight: 500; font-display: swap; src: url("../fonts/teko-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Teko"; font-weight: 600; font-display: swap; src: url("../fonts/teko-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Teko"; font-weight: 700; font-display: swap; src: url("../fonts/teko-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Michroma"; font-weight: 400; font-display: swap; src: url("../fonts/michroma-latin-400-normal.woff2") format("woff2"); }
+
+/* Brand palette, taken from the business card. */
+:root {
+  color-scheme: dark;
+  --amber: #F2A51A;
+  --amber-light: #F8C04A;
+  --charcoal: #212225;
+  --charcoal-2: #2A2B2F;
+  --black: #161719;
+  --steel: #36383D;
+  --white: #F4F2EE;
+  --muted: #A8ABB0;
+
+  --display: "Teko", "Arial Narrow", sans-serif;
+  --wordmark: "Michroma", "Arial Black", sans-serif;
+  --body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* White sunburst rays from the business card, for amber blocks. */
+  --rays: repeating-conic-gradient(from -90deg at 88% 115%, rgb(255 255 255 / 0.16) 0deg 3.5deg, transparent 3.5deg 11deg);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  -webkit-tap-highlight-color: transparent;
+}
+h1, h2, h3, p, ul, dl, dd { margin: 0; }
+ul { padding: 0; list-style: none; }
+a { color: inherit; }
+::selection { background: var(--amber); color: var(--charcoal); }
+:focus-visible { outline: 3px solid var(--white); outline-offset: 3px; }
+
+.wrap {
+  width: min(100% - 2.5rem, 72rem);
+  width: min(100% - 2.5rem - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px), 72rem);
+  margin-inline: auto;
+}
+
+/* Headings: condensed, uppercase, like the card. */
+h2, h3, .cap-title, .page-head h1 {
+  font-family: var(--display);
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 0.9;
+}
+.fast { color: var(--white); text-shadow: 0.05em 0.05em 0 var(--charcoal); }
+
+/* Small label above a section heading. */
+.eyebrow {
+  margin-bottom: 0.7rem;
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+/* Square-bullet checklist. */
+.checks { display: grid; gap: 0.45rem; }
+.checks li { position: relative; padding-left: 1.5rem; }
+.checks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 0.6rem;
+  height: 0.6rem;
+  background: var(--amber);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 3.25rem;
+  padding: 0.2rem 1.25rem 0;
+  border: 2px solid transparent;
+  border-radius: 0;
+  font-family: var(--display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  touch-action: manipulation;
+  transition: transform 0.12s ease, background-color 0.15s ease, color 0.15s ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn-call { background: var(--amber); color: var(--charcoal); }
+.btn-mail { border-color: var(--steel); color: var(--white); }
+.btn-dark { background: var(--charcoal); color: var(--white); }
+.btn-line { border-color: currentColor; }
+@media (hover: hover) {
+  .btn-call:hover { background: var(--amber-light); }
+  .btn-mail:hover { background: var(--steel); }
+  .btn-dark:hover { background: var(--black); }
+  .btn-line:hover { background: var(--charcoal); border-color: var(--charcoal); color: var(--amber); }
+}
+.icon {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: -0.2rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Header ---------- */
+.top {
+  display: flex;
+  align-items: center;
+  gap: 1rem 1.75rem;
+  padding: calc(env(safe-area-inset-top, 0px) + 1rem) 1.25rem 1rem;
+}
+/* Logo: the hex-nut lockup and the badge are drawn once per page in the sprite at the top of <body> and placed
+   with <use>. Colours come in through custom properties; .logo-dark is the lockup for charcoal backgrounds. */
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.brand { display: block; margin-right: auto; }
+.logo { display: block; height: 2.6rem; width: auto; aspect-ratio: 262 / 76; }
+.logo-dark { --logo-edge: var(--amber); --logo-ring: var(--charcoal); --logo-fast: var(--white); --logo-fleet: var(--amber); }
+/* The full badge beside a section heading (contact, services page head): wide screens only. */
+.badge-aside { display: none; flex: none; width: clamp(11rem, 19vw, 16rem); height: auto; aspect-ratio: 360 / 320; }
+.nav { display: none; gap: 1.6rem; }
+.nav a, .foot-nav a {
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding-top: 0.15em;
+  border-bottom: 3px solid transparent;
+}
+.nav a[aria-current="page"] { border-bottom-color: currentColor; }
+@media (hover: hover) { .nav a:hover, .foot-nav a:hover { border-bottom-color: currentColor; } }
+.top-contact { display: flex; gap: 0.5rem; }
+.top-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 2px solid currentColor;
+  text-decoration: none;
+}
+.top-link .icon { margin-top: 0; }
+.top-link span { display: none; }
+.top-solid { background: var(--charcoal); color: var(--white); border-bottom: 4px solid var(--amber); }
+
+/* ---------- Story ----------
+   Default (no JavaScript or reduced motion): static scene with the captions listed below. */
+.story { position: relative; background: var(--amber); color: var(--charcoal); }
+.stage { position: relative; }
+#scene { display: block; width: 100%; height: auto; aspect-ratio: 1700 / 610; }
+
+.captions { display: grid; gap: 1.75rem; width: min(100% - 2.5rem, 72rem); margin: 1.5rem auto 3rem; }
+.cap-title { font-size: clamp(3.1rem, 14vw, 6.5rem); }
+.cap-sub { max-width: 26rem; margin-top: 0.6rem; font-size: 1.1rem; font-weight: 500; text-wrap: pretty; }
+
+html.anim-pending .stage { visibility: hidden; }
+html.anim .story { height: 100vh; height: 100svh; }
+html.anim .stage { height: 100%; overflow: hidden; }
+html.anim #scene { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; }
+html.anim .story .top { position: absolute; inset: 0 0 auto 0; z-index: 3; padding-bottom: 0; }
+html.anim .captions {
+  position: absolute; z-index: 2; top: clamp(4.75rem, 13svh, 8rem); left: 0; right: 0;
+  margin: 0; gap: 0; padding-inline: max(1.25rem, calc((100vw - 72rem) / 2)); pointer-events: none;
+}
+html.anim .cap { grid-area: 1 / 1; }
+
+/* ---------- "Fast" band ---------- */
+.hazard { height: 14px; background: repeating-linear-gradient(135deg, var(--charcoal) 0 16px, var(--amber) 16px 32px); }
+.fast-band { background: var(--charcoal); }
+.fast-inner { padding-block: 3.25rem 3.5rem; }
+.fast-band h2 { font-size: clamp(2.8rem, 10vw, 5.5rem); }
+.fast-band .fast { color: var(--amber); text-shadow: none; }
+.fast-points { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem 1.5rem; margin-top: 2.25rem; }
+.fast-points li { padding-left: 1rem; border-left: 4px solid var(--amber); }
+.fast-points strong {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 6vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  padding-top: 0.2rem;
+  color: var(--amber);
+}
+.fast-points span { display: block; margin-top: 0.3rem; color: var(--muted); font-size: 1rem; }
+
+/* ---------- Preventive maintenance (the specialty) ---------- */
+.pm { background: var(--rays), var(--amber); color: var(--charcoal); }
+.pm .eyebrow { color: var(--charcoal); }
+.pm-inner { display: grid; gap: 2.5rem; padding-block: 4.5rem 5rem; }
+.pm h2 { font-size: clamp(3rem, 12vw, 6.75rem); }
+.pm-lede { max-width: 34rem; margin-top: 1.1rem; font-size: 1.2rem; font-weight: 500; text-wrap: pretty; }
+.pm-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+.pm-list { display: grid; gap: 0.75rem; align-content: center; }
+.pm-list li { padding: 1.25rem 1.5rem 1.1rem; background: var(--charcoal); color: var(--white); border-left: 6px solid var(--white); }
+.pm-list strong {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 8vw, 3.4rem);
+  font-weight: 600;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.pm-list span { font-family: var(--display); font-size: 1.4rem; font-weight: 500; text-transform: uppercase; line-height: 1; }
+
+/* ---------- Service cards ---------- */
+.services { padding-block: 4.5rem 1rem; }
+.services h2 { font-size: clamp(2.6rem, 8vw, 4.5rem); }
+.cards { display: grid; gap: 1rem; margin-top: 2rem; }
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem 1.5rem 1.6rem;
+  background: var(--charcoal);
+  border-top: 4px solid var(--amber);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  scroll-margin-top: 1.5rem;
+}
+.card-num { font-family: var(--display); font-size: 1.2rem; font-weight: 600; line-height: 1; letter-spacing: 0.12em; color: var(--amber); text-transform: uppercase; }
+.card h2, .card h3 { font-size: 1.95rem; }
+.card p { color: var(--muted); }
+.card-link {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--amber);
+}
+.card-link::after { content: ""; position: absolute; inset: 0; }
+.card-link::before { content: "→ "; }
+@media (hover: hover) { .card:has(.card-link):hover { transform: translateY(-3px); background: var(--charcoal-2); } }
+.card:has(.card-link:focus-visible) { outline: 3px solid var(--white); outline-offset: 3px; }
+.card-link:focus-visible { outline: none; }
+.services-more { margin-top: 2rem; }
+
+.card-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: auto; padding-top: 0.75rem; }
+.card-actions .btn-line { color: var(--white); }
+@media (hover: hover) { .card-actions .btn-line:hover { background: var(--amber); border-color: var(--amber); color: var(--charcoal); } }
+.card-feature { background: var(--rays), var(--amber); color: var(--charcoal); border-top-color: var(--charcoal); }
+.card-feature .card-num { color: var(--charcoal); }
+.card-feature h2 { font-size: clamp(2.4rem, 7vw, 3.75rem); }
+.card-feature p { color: var(--charcoal); font-weight: 500; max-width: 36rem; }
+.card-feature .checks { font-size: 1.15rem; font-weight: 600; }
+.card-feature .checks li::before { background: var(--charcoal); }
+
+/* ---------- Services page ---------- */
+.page-head { background: var(--rays), var(--amber); color: var(--charcoal); }
+.page-head .eyebrow { color: var(--charcoal); }
+.page-head-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding-block: 3.5rem 4rem; }
+.page-head h1 { font-size: clamp(3rem, 12vw, 6.5rem); }
+.page-lede { max-width: 34rem; margin-top: 1rem; font-size: 1.2rem; font-weight: 500; }
+.svc-page { padding-block: 3rem 1rem; }
+.svc-page .cards { margin-top: 0; }
+
+/* ---------- Contact ---------- */
+.contact { margin-top: 3.5rem; background: var(--amber); color: var(--charcoal); }
+.contact .eyebrow { color: var(--charcoal); }
+.contact-inner { display: grid; gap: 0.9rem; justify-items: start; padding-block: 3.75rem 4.5rem; }
+.contact-head { display: flex; align-items: center; justify-content: space-between; gap: 2rem; width: 100%; }
+.contact-head > div { display: grid; gap: 0.9rem; justify-items: start; }
+.contact h2 { font-size: clamp(2.8rem, 10vw, 5.5rem); }
+.contact-lede { font-size: 1.25rem; font-weight: 600; }
+.contact-split { display: grid; gap: 1.75rem; width: 100%; margin-top: 1.25rem; }
+.contact-mail { container-type: inline-size; }
+.contact-label { margin-bottom: 0.35rem; font-family: var(--display); font-size: 1.4rem; font-weight: 600; line-height: 1; text-transform: uppercase; }
+.big-mail {
+  display: inline-block;
+  padding-top: 0.12em;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 8vw, 4.4rem);
+  font-size: min(4.4rem, 10.5cqi); /* the address is ~9.2em wide: keep it on one line in its column */
+  font-weight: 700;
+  line-height: 0.9;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.12em;
+  overflow-wrap: anywhere;
+}
+.contact-phone { padding-top: 1.5rem; border-top: 3px solid var(--charcoal); }
+.big-number {
+  font-family: var(--display);
+  font-size: clamp(2rem, 7.5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 0.9;
+  white-space: nowrap;
+  padding-top: 0.12em;
+  text-decoration: none;
+}
+@media (hover: hover) { .big-number:hover { text-decoration: underline; text-decoration-thickness: 0.05em; } }
+
+/* Email popup: what to include for fast service. */
+.mail-tip-wrap { position: relative; display: inline-block; max-width: 100%; }
+.mail-tip {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 0.9rem);
+  left: 0;
+  width: min(23rem, calc(100vw - 2.5rem));
+  padding: 1.1rem 1.25rem 1.2rem;
+  background: var(--charcoal);
+  color: var(--white);
+  border-top: 4px solid var(--white);
+  box-shadow: 0 1rem 2rem rgb(0 0 0 / 0.35);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
+}
+.mail-tip::before {
+  content: "";
+  position: absolute;
+  left: 1.5rem;
+  bottom: 100%;
+  border: 0.6rem solid transparent;
+  border-bottom-color: var(--white);
+  margin-bottom: 4px;
+}
+.mail-tip strong { display: block; margin-bottom: 0.6rem; font-family: var(--display); font-size: 1.45rem; font-weight: 600; line-height: 1; text-transform: uppercase; color: var(--amber); }
+.mail-tip .checks { font-size: 1rem; }
+.mail-tip-wrap:hover .mail-tip,
+.mail-tip-wrap:focus-within .mail-tip,
+.mail-tip-wrap.is-open .mail-tip { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.mail-tip-wrap.is-closed .mail-tip { opacity: 0; visibility: hidden; }
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1.25rem 3rem;
+  width: 100%;
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 3px solid var(--charcoal);
+}
+.facts dt { font-family: var(--display); font-size: 1.5rem; font-weight: 600; text-transform: uppercase; line-height: 1; }
+.facts dd { margin-top: 0.25rem; font-weight: 500; }
+.facts .quote { margin-top: 0.6rem; font-family: var(--display); font-size: 1.6rem; font-weight: 600; line-height: 1; text-transform: uppercase; }
+
+.cta .contact-inner { padding-block: 3.5rem 4rem; }
+.cta-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+.cta-actions .btn-line { text-transform: none; }
+
+/* ---------- Footer and action bar ---------- */
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-block: 1.75rem calc(7rem + env(safe-area-inset-bottom, 0px));
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+.foot-brand { display: grid; gap: 0.75rem; justify-items: start; }
+.foot .logo { height: 2.25rem; }
+.foot-nav { display: flex; gap: 1.5rem; }
+.foot-nav a { font-size: 1.2rem; color: var(--white); }
+.dock {
+  position: fixed;
+  z-index: 10;
+  inset-inline: 0;
+  bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  gap: 0.5rem;
+  width: min(30rem, 100% - 1.5rem);
+  margin-inline: auto;
+  padding: 0.45rem;
+  background: var(--charcoal);
+  border: 1px solid var(--steel);
+  border-radius: 0;
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 0.45);
+}
+.dock .btn { flex: 1 1 auto; padding-inline: 0.75rem; }
+@media (max-width: 359px) { .dock .icon { display: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .dock { animation: dock-in 0.5s 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  @keyframes dock-in { from { transform: translateY(160%); } }
+
+  /* Fade-up reveals below the hero (js/site.js adds .reveal-on, .reveal and .is-in; --i staggers siblings).
+     Section snapping is in js/main.js. */
+  html.reveal-on .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: calc(var(--i, 0) * 90ms);
+  }
+  html.reveal-on .reveal.is-in { opacity: 1; transform: none; }
+}
+
+/* ---------- Wider screens ---------- */
+@media (min-width: 760px) {
+  .badge-aside { display: block; }
+  .cards { grid-template-columns: 1fr 1fr; }
+  .card-feature { grid-column: 1 / -1; padding: 2.25rem 2.25rem 2.4rem; }
+  .fast-points { grid-template-columns: repeat(4, 1fr); }
+  .contact-split { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); align-items: end; gap: 2.5rem; }
+  .contact-phone { align-self: stretch; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 0 0 2.5rem; border-top: 0; border-left: 3px solid var(--charcoal); }
+}
+@media (min-width: 860px) {
+  .top { padding-inline: max(1.25rem, calc((100vw - 72rem) / 2)); }
+  .top .logo { height: 3rem; }
+  .top-contact { gap: 1.5rem; }
+  .top-link { width: auto; height: auto; border: 0; }
+  .top-link span { display: inline; white-space: nowrap; font-family: var(--display); font-size: 1.4rem; font-weight: 600; line-height: 1; padding-top: 0.15em; }
+  .top-link .icon { width: 1rem; height: 1rem; }
+  .cap-title { font-size: clamp(3.6rem, 6vw, 6rem); }
+  .pm-inner { grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr); align-items: center; gap: 4rem; padding-block: 6rem 6.5rem; }
+  .contact-inner { padding-block: 4.5rem 6rem; }
+}
+@media (min-width: 1100px) {
+  .cards-4 { grid-template-columns: repeat(4, 1fr); }
+  .svc-page .cards { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1080px) {
+  .nav { display: flex; }
+}
