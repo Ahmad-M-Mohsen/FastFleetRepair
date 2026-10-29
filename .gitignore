@@ -5,3 +5,6 @@ desktop.ini
 
 # Local tooling (Claude Code preview config)
 .claude/
+
+# Upload ZIPs made by make-release.py
+release/

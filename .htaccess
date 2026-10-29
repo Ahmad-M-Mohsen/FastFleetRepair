@@ -1,0 +1,22 @@
+# Fast Fleet Repair: settings for the live web server (LiteSpeed / Apache read this file from the site folder).
+
+# No folder listings: without this, opening /css/ or /js/ in a browser shows a list of the files.
+Options -Indexes
+
+# One address for the site: www.fastfleetrepair.ca sends visitors to fastfleetrepair.ca.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# Pages, styles and scripts: browsers check for a newer copy on every visit, so updates show up straight away.
+# Fonts and icons rarely change, so browsers may keep them for 30 days.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|css|js)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.(woff2|png|svg)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>

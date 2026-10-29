@@ -16,6 +16,25 @@ Plain HTML, CSS and JavaScript, no build step.
 5. On a real phone: connect it to the same Wi-Fi and open `http://YOUR-COMPUTER-IP:8000`.
 6. Stop the server with Ctrl+C.
 
+## Put it online
+
+The live site is https://fastfleetrepair.ca, on Spaceship shared hosting (cPanel, LiteSpeed server). The domain
+and its free SSL certificate are set up there, and the server already sends http:// visitors to https://.
+Email for the domain (info@) runs on Microsoft 365, separately from the hosting.
+
+First upload, or a full update:
+
+1. In this folder run `py make-release.py 1.0.0` (a new version number each time). It writes
+   `release/fast-fleet-repair-v1.0.0.zip` with only the files the website needs.
+2. Spaceship: Hosting Manager → Go to cPanel → File Manager. Open the site folder: on Spaceship it is named after
+   the domain, `fastfleetrepair.ca` (Hosting Manager → Manage → Advanced shows it as the document root).
+3. Upload the ZIP into that folder, right-click it → Extract (into the same folder, overwriting old files), then
+   delete the ZIP. `index.html` must sit directly in the site folder, next to `css`, `js`, `fonts` and `brand`.
+4. Open https://fastfleetrepair.ca and press Ctrl+Shift+R.
+
+Small update (one or two files): in File Manager, open the matching folder inside the site folder (for example
+`css`) and upload the changed file over the old one. `.htaccess` is hidden: Settings → Show Hidden Files.
+
 ## Folder
 
 ```
@@ -27,6 +46,8 @@ js/site.js            email checklist + popup, smooth in-page links, footer year
 js/vendor/            GSAP 3.15 + ScrollTrigger (local copies, works offline)
 fonts/                Teko (headlines) and Michroma (wordmark)
 brand/                logo files (SVG with outlined lettering, PNG) and how to use them: brand/README.md
+.htaccess             live server settings: no folder listings, www -> fastfleetrepair.ca, caching
+make-release.py       builds the upload ZIP for the live site (see "Put it online")
 ```
 
 ## Edit the details
@@ -39,8 +60,9 @@ brand/                logo files (SVG with outlined lettering, PNG) and how to u
   (`#emergency`, `#maintenance`, `#yard`, `#fabrication`).
 - Logo (the Hex Badge): the header/footer lockup and the full badge are SVG symbols, `#ffr-lockup` and
   `#ffr-badge`, in the sprite at the top of `index.html` and `services.html` (keep the two copies identical).
-  They are placed with `<use>`: header, footer, the contact section, the services page head and the service
-  truck's door in the hero. The favicon (hex "F" icon) is inline in each page's `<head>`.
+  They are placed with `<use>`: the landing page header (lockup), the services page header (badge), the
+  landing page footer (the lockup cropped to the wordmark, no hex), the contact section, the services page head
+  and the service truck's door in the hero. The favicon (hex "F" icon) is inline in each page's `<head>`.
 - Colours: top of `css/style.css` (`--amber`, `--charcoal`, ...), taken from the business card.
   The amber in the drawing itself is `#F2A51A`.
 - Fonts: Teko (headlines, as on the card) and Michroma (wordmark).
