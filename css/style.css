@@ -231,7 +231,9 @@ html.anim .cap { grid-area: 1 / 1; }
   text-transform: uppercase;
   color: var(--amber);
 }
-.pm-list span { font-family: var(--display); font-size: 1.4rem; font-weight: 500; text-transform: uppercase; line-height: 1; }
+/* Keeps a hyphenated word on one line (Teko has no non-breaking hyphen). */
+.nowrap { white-space: nowrap; }
+.pm-list li > span { font-family: var(--display); font-size: 1.4rem; font-weight: 500; text-transform: uppercase; line-height: 1; }
 
 /* ---------- Service cards ---------- */
 .services { padding-block: 4.5rem 1rem; }

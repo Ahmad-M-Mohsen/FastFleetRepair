@@ -29,7 +29,8 @@ First upload, or a full update:
 2. Spaceship: Hosting Manager → Go to cPanel → File Manager. Open the site folder: on Spaceship it is named after
    the domain, `fastfleetrepair.ca` (Hosting Manager → Manage → Advanced shows it as the document root).
 3. Upload the ZIP into that folder, right-click it → Extract (into the same folder, overwriting old files), then
-   delete the ZIP. `index.html` must sit directly in the site folder, next to `css`, `js`, `fonts` and `brand`.
+   delete the ZIP. `index.html` must sit directly in the site folder, next to the `services`, `css`, `js`, `fonts`
+   and `brand` folders.
 4. Open https://fastfleetrepair.ca and press Ctrl+Shift+R.
 
 Small update (one or two files): in File Manager, open the matching folder inside the site folder (for example
@@ -39,7 +40,7 @@ Small update (one or two files): in File Manager, open the matching folder insid
 
 ```
 index.html            landing page and the scene (inline SVG, id="scene")
-services.html         "Repair services that we provide" page, one card per service
+services/index.html   "Repair services that we provide" page, one card per service (address: /services/)
 css/style.css         colours, type and layout for both pages (palette at the top)
 js/main.js            the scroll animation (landing page only)
 js/site.js            email checklist + popup, smooth in-page links, footer year (both pages)
@@ -52,16 +53,19 @@ make-release.py       builds the upload ZIP for the live site (see "Put it onlin
 
 ## Edit the details
 
-- Phone: search `index.html` and `services.html` for `15147707087` (Call now links) and `+1 (514) 770-7087` (shown on the page).
+- Phone: search `index.html` and `services/index.html` for `15147707087` (Call now links) and `+1 (514) 770-7087` (shown on the page).
 - Email: search both pages for `info@fastfleetrepair.ca`.
 - What customers are asked to include in an email (popup and pre-filled message): the `.mail-tip` list in `index.html`
   and `BODY` at the top of `js/site.js`. Keep the two in step.
-- Services: the full cards are in `services.html`; the short cards on the landing page link to them by id
+- Services: the full cards are in `services/index.html`; the short cards on the landing page link to them by id
   (`#emergency`, `#maintenance`, `#yard`, `#fabrication`).
+- Addresses: the pages open as `/` and `/services/`, with no file names. Link to them that way: `services/` from
+  the landing page, `../` from the services page. The services page loads its files with `../` in front (for
+  example `../css/style.css`). `.htaccess` sends old addresses such as `/services.html` to the clean ones.
 - Logo (the Hex Badge): the header/footer lockup and the full badge are SVG symbols, `#ffr-lockup` and
-  `#ffr-badge`, in the sprite at the top of `index.html` and `services.html` (keep the two copies identical).
-  They are placed with `<use>`: the landing page header (lockup), the services page header (badge), the
-  landing page footer (the lockup cropped to the wordmark, no hex), the contact section, the services page head
+  `#ffr-badge`, in the sprite at the top of `index.html` and `services/index.html` (keep the two copies identical).
+  They are placed with `<use>`: the header on both pages (badge), the landing page footer (the lockup cropped
+  to the wordmark, no hex), the contact section, the services page head
   and the service truck's door in the hero. The favicon (hex "F" icon) is inline in each page's `<head>`.
 - Colours: top of `css/style.css` (`--amber`, `--charcoal`, ...), taken from the business card.
   The amber in the drawing itself is `#F2A51A`.

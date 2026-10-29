@@ -10,7 +10,7 @@ import sys
 import zipfile
 
 ROOT = pathlib.Path(__file__).resolve().parent
-FOLDERS = ['css', 'js', 'fonts']
+FOLDERS = ['services', 'css', 'js', 'fonts']
 FILES = ['.htaccess', 'brand/favicon-32.png', 'brand/apple-touch-icon.png']
 
 if len(sys.argv) != 2:

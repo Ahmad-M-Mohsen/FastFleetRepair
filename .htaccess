@@ -3,11 +3,16 @@
 # No folder listings: without this, opening /css/ or /js/ in a browser shows a list of the files.
 Options -Indexes
 
-# One address for the site: www.fastfleetrepair.ca sends visitors to fastfleetrepair.ca.
+# One address for each page: www.fastfleetrepair.ca goes to fastfleetrepair.ca, and addresses that name a file go to
+# the clean one: /services.html -> /services/, /index.html -> /, /services/index.html -> /services/.
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+  RewriteRule ^services\.html$ /services/ [R=301,L]
+  # THE_REQUEST is what the visitor asked for, so the server's own internal lookup of index.html never loops.
+  RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
+  RewriteRule ^(.*/)?index\.html$ /$1 [R=301,L]
 </IfModule>
 
 # Pages, styles and scripts: browsers check for a newer copy on every visit, so updates show up straight away.
